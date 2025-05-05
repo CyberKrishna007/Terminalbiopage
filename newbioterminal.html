@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Krishna Bio Linux Terminal </title>
+<style>
+  /* Reset and basic styles */
+  * {
+    box-sizing: border-box;
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #121212;
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace, monospace;
+    overflow: hidden;
+  }
+
+  #terminal {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    max-height: 600px;
+    width: 350px;
+    max-width: 100vw;
+    background-color: #121212;
+    border: 2px solid #33ff33;
+    border-radius: 6px;
+    margin: 10px auto;
+    padding: 10px;
+    box-shadow: 0 0 15px #33ff33a0;
+  }
+
+  #output {
+    flex-grow: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding-right: 5px;
+    user-select: text;
+  }
+
+  #input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  #prompt {
+    font-weight: bold;
+    user-select: none;
+  }
+
+  #cmdline {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: #33ff33;
+    font-family: inherit;
+    font-size: 1em;
+    padding-left: 8px;
+    outline: none;
+  }
+
+  /* Scrollbar styling */
+  #output::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #output::-webkit-scrollbar-thumb {
+    background-color: #33ff33;
+    border-radius: 4px;
+  }
+
+  #output::-webkit-scrollbar-track {
+    background: #121212;
+  }
+
+  /* Responsive adjustments for smaller devices */
+  @media screen and (max-width: 400px) {
+    #terminal {
+      width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="terminal" role="region" aria-label="Krishna Bio Linux Terminal">
+    <div id="output" aria-live="polite" aria-atomic="false"></div>
+    <div id="input-line">
+      <span id="prompt">Krishna@linux:~$</span>
+      <input
+        type="text"
+        id="cmdline"
+        aria-label="Terminal command input"
+        autocomplete="off"
+        autofocus
+        spellcheck="false"
+      />
+    </div>
+  </div>
+
+  <script>
+    const outputEl = document.getElementById('output');
+    const cmdLine = document.getElementById('cmdline');
+    const prompt = 'krishna@linux:~$ ';
+
+    // Available commands and their responses
+    const commands = {
+      help: `Available commands:
+help       - Show available commands
+clear      - Clear the terminal screen
+date       - Show current date and time
+whoami     - Display current user
+uname      - Show system information
+echo       - Echo provided text
+`,
+      whoami: 'kali',
+      uname: 'Linux kali 5.10.0-kali4-amd64 #1 SMP Debian 5.10.28-1kali1 (2021-03-29) x86_64 GNU/Linux',
+    };
+
+    // Append a line to the terminal output
+    function appendOutput(text, isCommand = false) {
+      const line = document.createElement('div');
+      if (isCommand) {
+        const promptSpan = document.createElement('span');
+        promptSpan.style.fontWeight = 'bold';
+        promptSpan.textContent = prompt;
+        line.appendChild(promptSpan);
+        line.appendChild(document.createTextNode(text));
+      } else {
+        line.textContent = text;
+      }
+      outputEl.appendChild(line);
+      outputEl.scrollTop = outputEl.scrollHeight;
+    }
+
+    function processCommand(input) {
+      if (!input.trim()) return;
+
+      appendOutput(input, true);
+
+      const args = input.split(' ').filter(Boolean);
+      const cmd = args[0].toLowerCase();
+
+      switch(cmd) {
+        case 'help':
+          appendOutput(commands.help);
+          break;
+        case 'clear':
+          outputEl.innerHTML = '';
+          break;
+        case 'date':
+          appendOutput(new Date().toString());
+          break;
+        case 'whoami':
+          appendOutput(commands.whoami);
+          break;
+        case 'uname':
+          appendOutput(commands.uname);
+          break;
+        case 'echo':
+          appendOutput(args.slice(1).join(' '));
+          break;
+        default:
+          appendOutput(`${cmd}: command not found`);
+      }
+    }
+
+    cmdLine.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        const input = cmdLine.value;
+        processCommand(input);
+        cmdLine.value = '';
+      }
+    });
+
+    // Focus input on terminal click
+    document.getElementById('terminal').addEventListener('click', () => {
+      cmdLine.focus();
+    });
+
+    // Initial welcome message
+    appendOutput('Welcome to Krishna Bio Terminal. Type "help" for commands.');
+  </script>
+</body>
+</html>
+
