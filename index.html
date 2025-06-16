@@ -119,12 +119,12 @@
 help       - Show available commands
 clear      - Clear the terminal screen
 date       - Show current date and time
-whoami     - Display current user
-uname      - Show system information
+aboutme    - Display current user info
+socialacc  - Show system information
 echo       - Echo provided text
 `,
-      whoami: 'kali',
-      uname: 'Linux kali 5.10.0-kali4-amd64 #1 SMP Debian 5.10.28-1kali1 (2021-03-29) x86_64 GNU/Linux',
+    aboutme: 'i am a programer or a Ethical hacker other info soon',
+      uname: 'Insta:-Its_vip_krishna_gupta',
     };
 
     // Append a line to the terminal output
@@ -161,10 +161,10 @@ echo       - Echo provided text
         case 'date':
           appendOutput(new Date().toString());
           break;
-        case 'whoami':
+        case 'aboutme':
           appendOutput(commands.whoami);
           break;
-        case 'uname':
+        case 'socialacc':
           appendOutput(commands.uname);
           break;
         case 'echo':
