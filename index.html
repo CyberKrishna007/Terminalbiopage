@@ -118,13 +118,17 @@
       help: `Available commands:
 help       - Show available commands
 clear      - Clear the terminal screen
-date       - Show current date and time
-aboutme    - Display current user info
-socialacc  - Show account information
-friendlist - updates in week
+date        - Show current date and time
+aboutme - Display current user info
+socialacc- Show account information
+friendlist -  updates in week
+Groups-     Soon!
+
 `,
-      aboutme:'i am a programer',
+      aboutme:'I am a highly analytical back-end developer and Ethical Hacker with python and java,c++,etc expertise. I develop efficient and secure systems that meet client needs. With a deep understanding of back-end development best practices, I am an innovative developer or a ethical hacker',
       socialacc: 'Insta:-Its_vip_krishna_gupta',
+      friendlist:'61-18Active',
+                     
     };
 
     // Append a line to the terminal output
@@ -167,8 +171,8 @@ friendlist - updates in week
         case 'socialacc':
           appendOutput(commands.socialacc);
           break;
-        case 'echo':
-          appendOutput(args.slice(1).join(' '));
+        case 'friendlist':
+          appendOutput(commands.friendlist);
           break;
         default:
           appendOutput(`${cmd}: command not found`);
@@ -193,4 +197,3 @@ friendlist - updates in week
   </script>
 </body>
 </html>
-
